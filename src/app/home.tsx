@@ -14,7 +14,7 @@ export default function Home(): JSX.Element {
   });
 
   return (
-    <div className="w-full max-w-screen-md">
+    <div className="w-full max-w-screen-xl">
       {/* <input onChange={(event) => setFilter(event.target.value)}>{filter}</input> */}
       <MBTable data={data?.results ?? []} />
     </div>
