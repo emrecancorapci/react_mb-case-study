@@ -1,4 +1,4 @@
-import ThemeToggler from '../theme-toggler';
+import ThemeToggler from './theme-toggler';
 
 export default function Header(): JSX.Element {
   return (
