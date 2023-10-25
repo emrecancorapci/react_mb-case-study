@@ -1,5 +1,5 @@
-import { OrganizedMBData } from '@/types/organized-mb-data';
 import { MBData } from '@/types/mb-data';
+import { OrganizedMBData } from '@/types/organized-mb-data';
 
 export const dataFormatter: (data: MBData[]) => OrganizedMBData[] = (data: MBData[]) => {
   return data.map((item: MBData) => {

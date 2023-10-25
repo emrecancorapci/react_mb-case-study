@@ -1,8 +1,10 @@
-import { OrganizedMBData } from '@/types/organized-mb-data';
 import { type ColumnDef } from '@tanstack/react-table';
-import { Button } from '../ui/button';
-import { Link } from 'react-router-dom';
 import { LinkIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+import { OrganizedMBData } from '@/types/organized-mb-data';
+
+import { Button } from '../ui/button';
 
 export const columns: ColumnDef<OrganizedMBData>[] = [
   {
