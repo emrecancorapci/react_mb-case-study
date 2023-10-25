@@ -50,7 +50,8 @@
     "import",
     "unicorn",
     "react-refresh",
-    "simple-import-sort"
+    "simple-import-sort",
+    "@tanstack/query"
   ],
   "extends": [
     "eslint:recommended",
@@ -66,6 +67,7 @@
     "plugin:import/recommended",
     "plugin:n/recommended",
     "plugin:tailwindcss/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
     "prettier"
   ],
   "rules": {
