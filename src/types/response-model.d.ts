@@ -1,6 +1,6 @@
 export interface ResponseModel<T> {
   page: number;
-  pageSize: number;
-  pageCount: number;
+  page_size: number;
+  count: number;
   results: T[];
 }
