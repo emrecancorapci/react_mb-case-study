@@ -3,37 +3,42 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 interface Properties {
   pageSize: number;
+  currentPage: number;
   changeItemPerPage: (value: string) => void;
   nextPage: () => void;
   previousPage: () => void;
 }
 
 export default function TableControllers({
-  pageSize,
+  currentPage,
   changeItemPerPage,
   nextPage,
   previousPage,
 }: Properties): JSX.Element {
   return (
     <div className="flex flex-row justify-between p-4">
-      <div className="flex w-80 items-center gap-4">
-        <p className="w-full">Items per page :</p>
-        <Select onValueChange={(value) => changeItemPerPage(value)}>
-          <SelectTrigger>
-            <SelectValue placeholder={pageSize} />
-          </SelectTrigger>
-          <SelectContent>
-            {[5, 10, 20, 50, 100].map((number) => (
-              <SelectItem key={number} value={String(number)}>
-                {number}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <Button onClick={() => previousPage()}>Önceki</Button>
-        <Button onClick={() => nextPage()}>Sonraki</Button>
+      <Select onValueChange={(value) => changeItemPerPage(value)}>
+        <SelectTrigger className=" max-w-[100px]">
+          <SelectValue placeholder="10 Ürün" />
+        </SelectTrigger>
+        <SelectContent>
+          {[5, 10, 20, 50, 100].map((number) => (
+            <SelectItem key={number} value={String(number)}>
+              {`${String(number)} Öğe`}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <div className="grid grid-cols-5 items-center gap-2">
+        <Button className="col-span-2" onClick={() => previousPage()} disabled={currentPage <= 1}>
+          Önceki
+        </Button>
+        <p className="h-full w-full rounded-md border border-border bg-background py-2 text-center transition-all">
+          {currentPage}
+        </p>
+        <Button className="col-span-2" onClick={() => nextPage()}>
+          Sonraki
+        </Button>
       </div>
     </div>
   );
