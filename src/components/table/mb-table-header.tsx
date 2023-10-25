@@ -1,11 +1,12 @@
-import { type Table, flexRender } from '@tanstack/react-table';
+import { flexRender, type Table } from '@tanstack/react-table';
 
-import { TableRow, TableHead } from '../ui/table';
 import { OrganizedMBData } from '@/types/organized-mb-data';
+
+import { TableHead, TableHeader, TableRow } from '../ui/table';
 
 export default function MBTableHeader({ table }: { table: Table<OrganizedMBData> }) {
   return (
-    <>
+    <TableHeader>
       {table.getHeaderGroups().map((headerGroup) => (
         <TableRow key={headerGroup.id}>
           {headerGroup.headers.map((header) => (
@@ -15,6 +16,6 @@ export default function MBTableHeader({ table }: { table: Table<OrganizedMBData>
           ))}
         </TableRow>
       ))}
-    </>
+    </TableHeader>
   );
 }

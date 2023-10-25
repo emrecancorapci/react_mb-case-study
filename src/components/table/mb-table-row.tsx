@@ -1,7 +1,8 @@
-import { type Table, type ColumnDef, flexRender } from '@tanstack/react-table';
+import { type ColumnDef, flexRender, type Table } from '@tanstack/react-table';
 
-import { TableRow, TableCell } from '../ui/table';
 import { OrganizedMBData } from '@/types/organized-mb-data';
+
+import { TableBody, TableCell, TableRow } from '../ui/table';
 
 export default function MBTableRow({
   table,
@@ -11,7 +12,7 @@ export default function MBTableRow({
   columns: ColumnDef<OrganizedMBData>[];
 }) {
   return (
-    <>
+    <TableBody>
       {table.getRowModel().rows.length > 0 ? (
         table.getRowModel().rows.map((row) => (
           <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
@@ -27,6 +28,6 @@ export default function MBTableRow({
           </TableCell>
         </TableRow>
       )}
-    </>
+    </TableBody>
   );
 }
