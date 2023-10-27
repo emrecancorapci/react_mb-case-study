@@ -1,9 +1,11 @@
+import './global.css';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './global.css';
 import { RouterProvider } from 'react-router-dom';
+
 import ThemeProvider from './providers/theme-provider.tsx';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { router } from './router.tsx';
 
 const queryClient = new QueryClient();
