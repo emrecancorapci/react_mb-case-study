@@ -6,6 +6,7 @@ import MBTable from '@/app/mb-table';
 import TableControllers from '@/components/table-controllers';
 import { dataFetcher } from '@/lib/data-fetcher';
 import { dataFormatter } from '@/lib/data-formatter';
+import { useFilterStore } from '@/stores/use-filter-store';
 import { MBData } from '@/types/mb-data';
 import { ResponseModel } from '@/types/response-model';
 
@@ -18,10 +19,12 @@ export default function Home(): JSX.Element {
     currentServerPageIndex: 0,
   });
 
+  const [filters, sorting] = useFilterStore((state) => [state.filters, state.sorting]);
+
   const [shownData, setShownData] = useState<MBData[]>([]);
 
   const { data, error, isError, isLoading, isFetching } = useQuery<ResponseModel<MBData>, Error>({
-    queryKey: ['data', { index: currentServerPageIndex, size: fetchSize }],
+    queryKey: ['data', { index: currentServerPageIndex, size: fetchSize, filters, sorting }],
     queryFn: () => dataFetcher(currentServerPageIndex, fetchSize, filters, sorting),
     placeholderData: keepPreviousData,
   });
