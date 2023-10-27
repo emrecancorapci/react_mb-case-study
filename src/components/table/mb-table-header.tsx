@@ -1,21 +1,19 @@
-import { flexRender, type Table } from '@tanstack/react-table';
-
+import { MBColumn } from '@/types/mb-column';
 import { OrganizedMBData } from '@/types/organized-mb-data';
 
-import { TableHead, TableHeader, TableRow } from '../ui/table';
+import { TableHeader, TableRow } from '../ui/table';
+import MBTableHead from './mb-table-head';
 
-export default function MBTableHeader({ table }: { table: Table<OrganizedMBData> }) {
+export default function MBTableHeader({ columns }: { columns: MBColumn<OrganizedMBData>[] }) {
   return (
     <TableHeader>
-      {table.getHeaderGroups().map((headerGroup) => (
-        <TableRow key={headerGroup.id}>
-          {headerGroup.headers.map((header) => (
-            <TableHead key={header.id}>
-              {header.isPlaceholder ? undefined : flexRender(header.column.columnDef.header, header.getContext())}
-            </TableHead>
+      <TableRow>
+        {columns
+          .sort((a, b) => a.order - b.order)
+          .map((column) => (
+            <MBTableHead key={column.id} column={column} />
           ))}
-        </TableRow>
-      ))}
+      </TableRow>
     </TableHeader>
   );
 }

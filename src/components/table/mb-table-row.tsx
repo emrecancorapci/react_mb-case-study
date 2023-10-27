@@ -1,24 +1,33 @@
-import { type ColumnDef, flexRender, type Table } from '@tanstack/react-table';
+import { v4 as uuidv4 } from 'uuid';
 
+import { MBColumn } from '@/types/mb-column';
 import { OrganizedMBData } from '@/types/organized-mb-data';
 
 import { TableBody, TableCell, TableRow } from '../ui/table';
 
 export default function MBTableRow({
-  table,
+  data,
   columns,
 }: {
-  table: Table<OrganizedMBData>;
-  columns: ColumnDef<OrganizedMBData>[];
+  data: OrganizedMBData[];
+  columns: MBColumn<OrganizedMBData>[];
 }) {
   return (
     <TableBody>
-      {table.getRowModel().rows.length > 0 ? (
-        table.getRowModel().rows.map((row) => (
-          <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-            {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-            ))}
+      {data.length > 0 ? (
+        data.map((row) => (
+          <TableRow key={uuidv4()}>
+            {columns
+              .sort((a, b) => a.order - b.order)
+              .map((cell) => (
+                <TableCell key={cell.id}>
+                  {cell.CellWrapper === undefined ? (
+                    <>{row[cell.id]}</>
+                  ) : (
+                    <cell.CellWrapper>{row[cell.id]}</cell.CellWrapper>
+                  )}
+                </TableCell>
+              ))}
           </TableRow>
         ))
       ) : (
