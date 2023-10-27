@@ -3,6 +3,7 @@ import { LoaderIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import MBTable from '@/app/mb-table';
+import FilterSelector from '@/components/table/filter-selector';
 import TableControllers from '@/components/table-controllers';
 import { dataFetcher } from '@/lib/data-fetcher';
 import { dataFormatter } from '@/lib/data-formatter';
@@ -92,6 +93,8 @@ export default function Home(): JSX.Element {
 
   return (
     <div className="w-full max-w-screen-xl">
+      <FilterSelector />
+
       {isLoading || isFetching ? (
         <div className="flex w-full justify-center py-60">
           <LoaderIcon className="animate-spin" size={64} />
