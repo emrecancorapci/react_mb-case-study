@@ -1,103 +1,98 @@
-import { type ColumnDef } from '@tanstack/react-table';
 import { LinkIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { MBColumn } from '@/types/mb-column';
 import { OrganizedMBData } from '@/types/organized-mb-data';
 
 import { Button } from '../ui/button';
 
-export const columns: ColumnDef<OrganizedMBData>[] = [
+export const columns: MBColumn<OrganizedMBData>[] = [
   {
-    accessorKey: 'uploaded_variation',
-    header: 'Uploaded Variation',
-    cell: ({ row }) => {
-      return <p className="max-w-xs break-words">{row.getValue('uploaded_variation')}</p>;
-    },
-  },
-  {
-    accessorKey: 'existing_variation',
-    header: () => (
-      <>
-        <p className="text-center">Existing</p>
-        <p className="text-center">Variation</p>
-      </>
+    order: 1,
+    id: 'uploaded_variation',
+    name: 'Uploaded Variation',
+    CellWrapper: ({ children }: { children: string | number | null | undefined }) => (
+      <p className="max-w-xs break-words">{children}</p>
     ),
-    cell: ({ row }) => {
-      return <p className="text-center">{row.getValue('existing_variation')}</p>;
+  },
+  {
+    order: 2,
+    id: 'existing_variation',
+    name: 'Existing Variation',
+  },
+  {
+    order: 3,
+    id: 'symbol',
+    name: 'Symbol',
+    headerClass: 'text-center',
+    CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
+      return <p className="text-center">{children}</p>;
     },
   },
   {
-    accessorKey: 'symbol',
-    header: () => <p className="text-center">{'Symbol'}</p>,
-    cell: ({ row }) => {
-      return <p className="text-center">{row.getValue('symbol')}</p>;
+    order: 4,
+    id: 'af_vcf',
+    name: 'Allele Frequency',
+    CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
+      return <p className="text-center">{children}</p>;
     },
   },
   {
-    accessorKey: 'af_vcf',
-    header: () => <p className="text-center">{'AF VCF'}</p>,
-    cell: ({ row }) => {
-      return <p className="text-center">{row.getValue('af_vcf')}</p>;
+    order: 5,
+    id: 'dp',
+    name: 'Depth',
+    headerClass: 'text-center',
+    CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
+      return <p className="text-center">{children}</p>;
     },
   },
   {
-    accessorKey: 'dp',
-    header: () => <p className="text-center">{'DP'}</p>,
-    cell: ({ row }) => {
-      return <p className="text-center">{row.getValue('dp')}</p>;
+    order: 6,
+    id: 'dann_score',
+    name: 'Dann Score',
+    headerClass: 'text-center',
+    CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
+      return <p className="text-center">{children}</p>;
     },
   },
   {
-    accessorKey: 'dann_score',
-    header: () => (
-      <>
-        <p className="text-center">Dann</p>
-        <p className="text-center">Score</p>
-      </>
-    ),
-    cell: ({ row }) => {
-      return <p className="text-center">{row.getValue('dann_score')}</p>;
+    order: 7,
+    id: 'mondo',
+    name: 'Mondo',
+    CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
+      return <p className="max-w-[72px] break-words">{children}</p>;
     },
   },
   {
-    accessorKey: 'mondo',
-    header: () => (
-      <>
-        <p className="text-center">Mondo</p>
-      </>
-    ),
-    cell: ({ row }) => {
-      return <p className="max-w-[72px] break-words">{row.getValue('mondo')}</p>;
-    },
-  },
-  {
-    accessorKey: 'pheno_pubmed',
-    header: () => (
-      <>
-        <p className="text-center">Pheno</p>
-        <p className="text-center">Pubmed</p>
-      </>
-    ),
-    cell: ({ row }) => {
-      return (
-        <Link className="flex w-full justify-center" to={row.getValue('pheno_pubmed')}>
+    order: 8,
+    id: 'pheno_pubmed',
+    name: 'Pheno Pubmed',
+    CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
+      return typeof children === 'string' ? (
+        <Link className="flex w-full justify-center" to={children}>
           <Button className="h-8 px-2 py-0">
             <LinkIcon size={16} />
           </Button>
         </Link>
+      ) : (
+        <p>{children}</p>
       );
     },
   },
   {
-    accessorKey: 'provean',
-    header: () => <p className="text-center">Provean</p>,
-    cell: ({ row }) => {
-      return (
-        <Link className="flex w-full justify-center" to={row.getValue('provean')}>
+    order: 9,
+    id: 'provean',
+    name: 'Provean',
+    headerClass: 'text-center',
+    CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
+      return typeof children === 'string' ? (
+        <Link className="flex w-full justify-center" to={children}>
           <Button className="h-8 px-2 py-0">
             <LinkIcon size={16} />
           </Button>
         </Link>
+      ) : (
+        <p>{children}</p>
       );
     },
   },
