@@ -100,8 +100,11 @@ export default function Home(): JSX.Element {
       )}
 
       <TableControllers
-        pageSize={pageSize}
         currentPage={pageIndex + 1}
+        isNextPageAvailable={
+          (data?.page ?? 1) * (data?.page_size ?? fetchSize) <
+            (data?.count ?? fetchSize * currentServerPageIndex + 1) ?? false
+        }
         changeItemPerPage={changeItemPerPage}
         nextPage={nextPage}
         previousPage={previousPage}

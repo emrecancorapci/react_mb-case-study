@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface Properties {
-  pageSize: number;
   currentPage: number;
+  isNextPageAvailable: boolean;
   changeItemPerPage: (value: string) => void;
   nextPage: () => void;
   previousPage: () => void;
@@ -11,6 +11,7 @@ interface Properties {
 
 export default function TableControllers({
   currentPage,
+  isNextPageAvailable,
   changeItemPerPage,
   nextPage,
   previousPage,
@@ -36,7 +37,7 @@ export default function TableControllers({
         <p className="h-full w-full rounded-md border border-border bg-background py-2 text-center transition-all">
           {currentPage}
         </p>
-        <Button className="col-span-2" onClick={() => nextPage()}>
+        <Button className="col-span-2" onClick={() => nextPage()} disabled={!isNextPageAvailable}>
           Sonraki
         </Button>
       </div>
