@@ -1,4 +1,4 @@
-export type OrganizedMBData = {
+export interface OrganizedMBData {
   uploaded_variation: string;
   existing_variation: string;
   symbol: string;
@@ -8,4 +8,4 @@ export type OrganizedMBData = {
   mondo: string;
   pheno_pubmed: string;
   provean: string;
-};
+}

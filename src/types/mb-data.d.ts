@@ -1,4 +1,4 @@
-export type MBData = {
+export interface MBData {
   'main.uploaded_variation': string;
   'main.existing_variation': string;
   'main.symbol': string;
@@ -8,4 +8,4 @@ export type MBData = {
   'links.mondo': string;
   'links.pheno pubmed': string;
   'details2.provean': string;
-};
+}
