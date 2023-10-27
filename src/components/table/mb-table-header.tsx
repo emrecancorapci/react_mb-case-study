@@ -1,10 +1,8 @@
-import { MBColumn } from '@/types/mb-column';
-import { OrganizedMBData } from '@/types/organized-mb-data';
-
 import { TableHeader, TableRow } from '../ui/table';
+import { columns } from './columns';
 import MBTableHead from './mb-table-head';
 
-export default function MBTableHeader({ columns }: { columns: MBColumn<OrganizedMBData>[] }) {
+export default function MBTableHeader() {
   return (
     <TableHeader>
       <TableRow>

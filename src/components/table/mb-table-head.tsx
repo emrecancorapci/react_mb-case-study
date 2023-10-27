@@ -8,6 +8,7 @@ import { TableHead } from '../ui/table';
 
 export default function MBTableHead({ column }: { column: MBColumn<OrganizedMBData> }) {
   const [setSorting, sorting] = useFilterStore((state) => [state.setSorting, state.sorting]);
+
   return (
     <TableHead
       className="cursor-pointer"
