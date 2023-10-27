@@ -1,11 +1,11 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { LoaderIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import MBTable from '@/app/mb-table';
-import { dataFormatter } from '@/components/table/data-formatter';
 import TableControllers from '@/components/table-controllers';
+import { dataFetcher } from '@/lib/data-fetcher';
+import { dataFormatter } from '@/lib/data-formatter';
 import { MBData } from '@/types/mb-data';
 import { ResponseModel } from '@/types/response-model';
 
@@ -22,7 +22,7 @@ export default function Home(): JSX.Element {
 
   const { data, error, isError, isLoading, isFetching } = useQuery<ResponseModel<MBData>, Error>({
     queryKey: ['data', { index: currentServerPageIndex, size: fetchSize }],
-    queryFn: () => getData(currentServerPageIndex, fetchSize),
+    queryFn: () => dataFetcher(currentServerPageIndex, fetchSize, filters, sorting),
     placeholderData: keepPreviousData,
   });
 
@@ -109,12 +109,6 @@ export default function Home(): JSX.Element {
     </div>
   );
 }
-
-const getData = async (lastServerPageIndex: number, fetchSize: number) => {
-  const api = `https://api-dev.massbio.info/assignment/query?page=${lastServerPageIndex + 1}&page_size=${fetchSize}`;
-  const response = await axios.post<ResponseModel<MBData>>(api);
-  return response.data;
-};
 
 interface Pagination {
   pageIndex: number;
