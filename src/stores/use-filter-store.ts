@@ -20,11 +20,22 @@ export const useFilterStore = create<FilterStore>((set) => ({
   sorting: undefined,
   //   addFilter: (filter) =>
   //   set((state) => {
-  //     const newFilters = new Map(state.filters);
-  //     newFilters.set(Object.keys(filter)[0], Object.values(filter)[0]);
-  //     return {
-  //       filters: newFilters,
-  //     };
+  // /**
+  //  * if(filterType === 'enum') {
+  //  *   if(filter NOT exists) create new filter
+  //  *   else if(is filter value NOT exist) add value to existing filter
+  //  * }
+  //  * else if(filterType === 'number') {
+  //  *   if(filter NOT exists) create new filter
+  //  *   else if(filter value is NOT same) {
+  //  *     if(filter value is NOT same AND filter has one member) turn it into array
+  //  *     add value to existing filter
+  //  *   }
+  //  * }
+  //  * else if(filterType === 'free_form') {
+  //  *  if(filter NOT exists) create new filter
+  //  *  else if(filter value is NOT same) change filter value
+  //  */
   //   }),
   // deleteFilter: (filter) => {
   //   set((state) => {
