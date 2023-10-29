@@ -39,7 +39,7 @@ export const columns: MBColumn<OrganizedMBData>[] = [
   },
   {
     order: 5,
-    id: 'dp',
+    id: 'depth',
     name: 'Depth',
     headerClass: 'text-center',
     CellWrapper: ({ children }: { children: string | number | null | undefined }) => {

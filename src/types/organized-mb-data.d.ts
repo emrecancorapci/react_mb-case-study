@@ -3,7 +3,7 @@ export interface OrganizedMBData {
   existing_variation: string;
   symbol: string;
   af_vcf: number;
-  dp: number;
+  depth: number;
   dann_score: number | null | undefined;
   mondo: string;
   pheno_pubmed: string;
