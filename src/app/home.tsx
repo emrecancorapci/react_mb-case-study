@@ -3,8 +3,8 @@ import { LoaderIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import MBTable from '@/app/mb-table';
-import FilterSelector from '@/components/table/filter-selector';
-import TableControllers from '@/components/table-controllers';
+import TableHeader from '@/components/table/table-header';
+import TableFooter from '@/components/table-footer';
 import { dataFetcher } from '@/lib/data-fetcher';
 import { dataFormatter } from '@/lib/data-formatter';
 import { useFilterStore } from '@/stores/use-filter-store';
@@ -31,14 +31,10 @@ export default function Home(): JSX.Element {
   });
 
   const nextPage = () => {
-    const [nextFirstItem, nextLastItem] = [(pageIndex + 1) * pageSize, (pageIndex + 2) * pageSize];
-    const [currentFirstAvailableItem, currentLastAvailableItem] = [
-      currentServerPageIndex * fetchSize,
-      (currentServerPageIndex + 1) * fetchSize,
-    ];
-
+    const nextFirstItem = (pageIndex + 1) * pageSize;
+    const currentFirstAvailableItem = currentServerPageIndex * fetchSize;
     const isRequestedItemsAvailable =
-      nextFirstItem >= currentFirstAvailableItem && nextLastItem <= currentLastAvailableItem;
+      nextFirstItem >= currentFirstAvailableItem && nextFirstItem + pageSize <= currentFirstAvailableItem + fetchSize;
 
     if (isRequestedItemsAvailable) {
       setPagination((previous) => ({
@@ -55,14 +51,12 @@ export default function Home(): JSX.Element {
   };
 
   const previousPage = () => {
-    const [previousFirstItem, previousLastItem] = [(pageIndex - 1) * pageSize, pageIndex * pageSize];
-    const [currentFirstAvailableItem, currentLastAvailableItem] = [
-      currentServerPageIndex * fetchSize,
-      (currentServerPageIndex + 1) * fetchSize,
-    ];
+    const previousFirstItem = (pageIndex - 1) * pageSize;
+    const currentFirstAvailableItem = currentServerPageIndex * fetchSize;
 
     const isRequestedItemsAvailable =
-      previousFirstItem >= currentFirstAvailableItem && previousLastItem <= currentLastAvailableItem;
+      previousFirstItem >= currentFirstAvailableItem &&
+      previousFirstItem + pageSize <= currentFirstAvailableItem + fetchSize;
 
     if (isRequestedItemsAvailable && pageIndex > 0) {
       setPagination((previous) => ({
@@ -84,16 +78,13 @@ export default function Home(): JSX.Element {
 
   useEffect(() => {
     const startIndex = pageIndex * pageSize - currentServerPageIndex * fetchSize;
-    const endIndex = (pageIndex + 1) * pageSize - currentServerPageIndex * fetchSize;
 
-    console.log({ startIndex, endIndex, pageIndex, pageSize, currentServerPageIndex });
-
-    setShownData(data?.results.slice(startIndex, endIndex) ?? []);
+    setShownData(data?.results.slice(startIndex, startIndex + pageSize) ?? []);
   }, [data, pageIndex, pageSize, currentServerPageIndex]);
 
   return (
     <div className="w-full max-w-screen-xl">
-      <FilterSelector />
+      <TableHeader />
 
       {isLoading || isFetching ? (
         <div className="flex w-full justify-center py-60">
@@ -105,7 +96,7 @@ export default function Home(): JSX.Element {
         <MBTable data={dataFormatter(shownData)} />
       )}
 
-      <TableControllers
+      <TableFooter
         currentPage={pageIndex + 1}
         isNextPageAvailable={
           (data?.page ?? 1) * (data?.page_size ?? fetchSize) <

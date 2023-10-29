@@ -9,7 +9,7 @@ interface Properties {
   previousPage: () => void;
 }
 
-export default function TableControllers({
+export default function TableFooter({
   currentPage,
   isNextPageAvailable,
   changeItemPerPage,

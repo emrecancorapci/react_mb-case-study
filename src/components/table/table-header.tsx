@@ -4,7 +4,7 @@ import { Button } from '../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import FilterSelectorForm from './filter-selector-form';
 
-export default function FilterSelector(): JSX.Element {
+export default function TableHeader(): JSX.Element {
   const [filters] = useFilterStore((state) => [state.filters, state.addFilter]);
 
   return (
