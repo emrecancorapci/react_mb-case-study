@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 interface Properties {
   currentPage: number;
   isNextPageAvailable: boolean;
-  changeItemPerPage: (value: string) => void;
+  setPageSize: (value: string | number) => void;
   nextPage: () => void;
   previousPage: () => void;
 }
@@ -12,13 +12,13 @@ interface Properties {
 export default function TableFooter({
   currentPage,
   isNextPageAvailable,
-  changeItemPerPage,
+  setPageSize,
   nextPage,
   previousPage,
 }: Properties): JSX.Element {
   return (
     <div className="flex flex-row justify-between p-4">
-      <Select onValueChange={(value) => changeItemPerPage(value)}>
+      <Select onValueChange={(value) => setPageSize(value)}>
         <SelectTrigger className=" max-w-[100px]">
           <SelectValue placeholder="10 Ürün" />
         </SelectTrigger>
