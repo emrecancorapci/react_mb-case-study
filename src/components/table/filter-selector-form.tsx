@@ -15,16 +15,16 @@ interface Inputs {
 
 export default function FilterSelectorForm() {
   const form = useForm<Inputs>();
-  const addFilter = useFilterStore((state) => state.addFilter);
+  // const addFilter = useFilterStore((state) => state.addFilter);
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-    addFilter({ [data.filterType]: data.filterValue });
-  };
+  // const onSubmit: SubmitHandler<Inputs> = (data) => {
+  //   addFilter({ [data.filterType]: data.filterValue });
+  // };
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-8" onSubmit={form.handleSubmit(onSubmit)}>
+      {/* <form className="flex flex-col gap-8" onSubmit={form.handleSubmit(onSubmit)}> */}
+      <form className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
           <FormField
             control={form.control}
