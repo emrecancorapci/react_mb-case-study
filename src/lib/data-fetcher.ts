@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import type { Filter, Sorting } from '@/stores/use-filter-store';
+import { type FilterData, getFilters, type Sorting } from '@/stores/use-filter-store';
 import type { FormattedDataType } from '@/types/formatted-data';
 import { ResponseModel } from '@/types/response-model';
 import { UnformattedData, UnformattedDataType } from '@/types/unformatted-data';
@@ -10,7 +10,7 @@ import { dataMapperReverse } from './data-formatter';
 export const dataFetcher = async (
   lastServerPageIndex: number,
   fetchSize: number,
-  filters: Filter[],
+  filters: FilterData,
   sorting: Sorting | undefined,
 ) => {
   const api = `https://api-dev.massbio.info/assignment/query?page=${lastServerPageIndex + 1}&page_size=${fetchSize}`;
@@ -23,26 +23,10 @@ export const dataFetcher = async (
             sorting[Object.keys(sorting)[0]],
         };
 
-  // let formattedFilters;
-  // if (filters) {
-  //   if (filters.size > 1) {
-  //     for (const filter of filters) {
-  //       formattedFilters = [];
-  //       formattedFilters.push({ [dataMapperReverse(filter[0])]: filter[1] });
-  //     }
-  //   } else if (filters.size === 1) {
-  //     formattedFilters = { f}
-  //   } else {
-  //     formattedFilters = undefined;
-  //   }
-  // }
+  const formattedFilters = getFilters();
 
-  // const request =
-  //   filters === undefined || filters?.size < 1
-  //     ? { ordering: formattedSorting }
-  //     : { filters: formattedFilters, ordering: formattedSorting };
-
-  const request = { ordering: formattedSorting };
+  const request =
+    filters === undefined ? { ordering: formattedSorting } : { filters: formattedFilters, ordering: formattedSorting };
 
   const response = await axios.post<ResponseModel<UnformattedData>>(api, request);
   console.log('Response:', response.request);

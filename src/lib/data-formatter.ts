@@ -1,4 +1,3 @@
-import { FilterType } from '@/stores/use-filter-store';
 import { FormattedData, FormattedDataType } from '@/types/formatted-data';
 import { UnformattedData, UnformattedDataType } from '@/types/unformatted-data';
 
@@ -66,20 +65,4 @@ export const dataMapperReverse: (data: FormattedDataType) => UnformattedDataType
   ]);
 
   return dataMap.get(data) ?? 'ERROR';
-};
-
-export const getDataType = (data: FormattedDataType) => {
-  const dataTypeMap = new Map<FormattedDataType, FilterType>([
-    ['uploaded_variation', 'enum'],
-    ['existing_variation', 'enum'],
-    ['symbol', 'enum'],
-    ['af_vcf', 'numeric'],
-    ['depth', 'numeric'],
-    ['dann_score', 'numeric'],
-    ['pheno_pubmed', 'free_form'],
-    ['mondo', 'free_form'],
-    ['provean', 'free_form'],
-  ]);
-
-  return dataTypeMap.get(data) ?? 'ERROR';
 };
