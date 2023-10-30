@@ -1,12 +1,12 @@
 import { LinkIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { FormattedData } from '@/types/formatted-data';
 import { MBColumn } from '@/types/mb-column';
-import { OrganizedMBData } from '@/types/organized-mb-data';
 
 import { Button } from '../ui/button';
 
-export const columns: MBColumn<OrganizedMBData>[] = [
+export const columns: MBColumn<FormattedData>[] = [
   {
     order: 1,
     id: 'uploaded_variation',

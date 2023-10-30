@@ -1,9 +1,9 @@
-import { OrganizedMBData } from '@/types/organized-mb-data';
+import { FormattedData } from '@/types/formatted-data';
 
 import { TableCell, TableRow } from '../ui/table';
 import { columns } from './columns';
 
-export default function MBTableRow({ row }: { row: OrganizedMBData }) {
+export default function MBTableRow({ row }: { row: FormattedData }) {
   return (
     <TableRow>
       {columns

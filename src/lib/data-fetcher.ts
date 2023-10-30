@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 import type { Filter, Sorting } from '@/stores/use-filter-store';
-import { MBData } from '@/types/mb-data';
+import type { FormattedDataType } from '@/types/formatted-data';
 import { ResponseModel } from '@/types/response-model';
+import { UnformattedData, UnformattedDataType } from '@/types/unformatted-data';
 
-import { dataMapperReverse, FormattedData } from './data-formatter';
+import { dataMapperReverse } from './data-formatter';
 
 export const dataFetcher = async (
   lastServerPageIndex: number,
@@ -16,8 +17,11 @@ export const dataFetcher = async (
   const formattedSorting =
     sorting === undefined
       ? undefined
-      : // @ts-expect-error - Doesn't makes sense
-        { [dataMapperReverse(Object.keys(sorting)[0] as FormattedData)]: sorting[Object.keys(sorting)[0]] };
+      : {
+          [dataMapperReverse(Object.keys(sorting)[0] as FormattedDataType) as UnformattedDataType]:
+            // @ts-expect-error - Doesn't makes sense
+            sorting[Object.keys(sorting)[0]],
+        };
 
   // let formattedFilters;
   // if (filters) {
@@ -40,7 +44,7 @@ export const dataFetcher = async (
 
   const request = { ordering: formattedSorting };
 
-  const response = await axios.post<ResponseModel<MBData>>(api, request);
+  const response = await axios.post<ResponseModel<UnformattedData>>(api, request);
   console.log('Response:', response.request);
   return response.data;
 };

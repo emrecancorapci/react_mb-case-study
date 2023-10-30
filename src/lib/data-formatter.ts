@@ -1,30 +1,9 @@
-import { MBData } from '@/types/mb-data';
-import { OrganizedMBData } from '@/types/organized-mb-data';
+import { FilterType } from '@/stores/use-filter-store';
+import { FormattedData, FormattedDataType } from '@/types/formatted-data';
+import { UnformattedData, UnformattedDataType } from '@/types/unformatted-data';
 
-export type FormattedData =
-  | 'uploaded_variation'
-  | 'existing_variation'
-  | 'symbol'
-  | 'af_vcf'
-  | 'depth'
-  | 'dann_score'
-  | 'pheno_pubmed'
-  | 'mondo'
-  | 'provean';
-
-export type UnFormattedData =
-  | 'main.uploaded_variation'
-  | 'main.existing_variation'
-  | 'main.symbol'
-  | 'main.af_vcf'
-  | 'main.dp'
-  | 'details2.dann_score'
-  | 'links.pheno pubmed'
-  | 'links.mondo'
-  | 'details2.provean';
-
-export const dataFormatter: (data: MBData[]) => OrganizedMBData[] = (data: MBData[]) => {
-  return data.map((item: MBData) => {
+export const dataFormatter: (data: UnformattedData[]) => FormattedData[] = (data: UnformattedData[]) => {
+  return data.map((item: UnformattedData) => {
     return {
       uploaded_variation: item['main.uploaded_variation'],
       existing_variation: item['main.existing_variation'],
@@ -39,8 +18,8 @@ export const dataFormatter: (data: MBData[]) => OrganizedMBData[] = (data: MBDat
   });
 };
 
-export const dataFormatterReverse: (data: OrganizedMBData[]) => MBData[] = (data: OrganizedMBData[]) => {
-  return data.map((item: OrganizedMBData) => {
+export const dataFormatterReverse: (data: FormattedData[]) => UnformattedData[] = (data: FormattedData[]) => {
+  return data.map((item: FormattedData) => {
     return {
       'main.uploaded_variation': item.uploaded_variation,
       'main.existing_variation': item.existing_variation,
@@ -55,8 +34,8 @@ export const dataFormatterReverse: (data: OrganizedMBData[]) => MBData[] = (data
   });
 };
 
-export const dataMapper: (data: string) => FormattedData | 'ERROR' = (data: string) => {
-  const dataMap = new Map([
+export const dataMapper: (data: UnformattedDataType) => FormattedDataType | 'ERROR' = (data: UnformattedDataType) => {
+  const dataMap = new Map<UnformattedDataType, FormattedDataType>([
     ['main.uploaded_variation', 'uploaded_variation'],
     ['main.existing_variation', 'existing_variation'],
     ['main.symbol', 'symbol'],
@@ -68,11 +47,13 @@ export const dataMapper: (data: string) => FormattedData | 'ERROR' = (data: stri
     ['details2.provean', 'provean'],
   ]);
 
-  return (dataMap.get(data) as FormattedData) ?? 'ERROR';
+  return dataMap.get(data) ?? 'ERROR';
 };
 
-export const dataMapperReverse: (data: FormattedData) => string = (data: FormattedData) => {
-  const dataMap = new Map<FormattedData, UnFormattedData>([
+export const dataMapperReverse: (data: FormattedDataType) => UnformattedDataType | 'ERROR' = (
+  data: FormattedDataType,
+) => {
+  const dataMap = new Map<FormattedDataType, UnformattedDataType>([
     ['uploaded_variation', 'main.uploaded_variation'],
     ['existing_variation', 'main.existing_variation'],
     ['symbol', 'main.symbol'],
@@ -87,8 +68,8 @@ export const dataMapperReverse: (data: FormattedData) => string = (data: Formatt
   return dataMap.get(data) ?? 'ERROR';
 };
 
-export const getDataType = (data: FormattedData) => {
-  const dataTypeMap = new Map([
+export const getDataType = (data: FormattedDataType) => {
+  const dataTypeMap = new Map<FormattedDataType, FilterType>([
     ['uploaded_variation', 'enum'],
     ['existing_variation', 'enum'],
     ['symbol', 'enum'],

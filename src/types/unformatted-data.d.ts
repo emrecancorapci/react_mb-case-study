@@ -1,4 +1,4 @@
-export interface MBData {
+export interface UnformattedData {
   'main.uploaded_variation': string;
   'main.existing_variation': string;
   'main.symbol': string;
@@ -9,3 +9,14 @@ export interface MBData {
   'links.pheno pubmed': string;
   'details2.provean': string;
 }
+
+export type UnformattedDataType =
+  | 'main.uploaded_variation'
+  | 'main.existing_variation'
+  | 'main.symbol'
+  | 'main.af_vcf'
+  | 'main.dp'
+  | 'details2.dann_score'
+  | 'links.pheno pubmed'
+  | 'links.mondo'
+  | 'details2.provean';

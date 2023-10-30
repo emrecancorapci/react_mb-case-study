@@ -1,18 +1,18 @@
 import { create } from 'zustand';
 
-import { FormattedData } from '@/lib/data-formatter';
+import { FormattedDataType } from '@/types/formatted-data';
 
-// export type Filter = Record<FormattedData, string[] | number[] | string | number>;
-// export type FilterType = 'enum' | 'number' | 'free_form';
+export type Filter = Record<FormattedDataType, string[] | number[] | string | number>;
+export type Sorting = Record<FormattedDataType, 'ASC' | 'DESC'>;
 
-export type Sorting = Record<FormattedData, 'ASC' | 'DESC'>;
+export type FilterType = 'enum' | 'numeric' | 'free_form';
 
 interface FilterStore {
   // filters: Filter[];
   sorting: Sorting | undefined;
   // addFilter: (filter: Record<string, string | number>) => void;
   // deleteFilter: (filter: Record<string, string | number>) => void;
-  setSorting: (sorting: FormattedData) => void;
+  setSorting: (sorting: FormattedDataType) => void;
 }
 
 export const useFilterStore = create<FilterStore>((set) => ({

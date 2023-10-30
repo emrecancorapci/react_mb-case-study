@@ -9,8 +9,8 @@ import usePagination from '@/hooks/usePagination';
 import { dataFetcher } from '@/lib/data-fetcher';
 import { dataFormatter } from '@/lib/data-formatter';
 import { useFilterStore } from '@/stores/use-filter-store';
-import { MBData } from '@/types/mb-data';
 import { ResponseModel } from '@/types/response-model';
+import { UnformattedData } from '@/types/unformatted-data';
 
 export default function Home(): JSX.Element {
   const fetchSize = 100;
@@ -19,9 +19,9 @@ export default function Home(): JSX.Element {
   });
 
   const [filters, sorting] = useFilterStore((state) => [state.filters, state.sorting]);
-  const [shownData, setShownData] = useState<MBData[]>([]);
+  const [shownData, setShownData] = useState<UnformattedData[]>([]);
 
-  const { data, error, isError, isLoading, isFetching } = useQuery<ResponseModel<MBData>, Error>({
+  const { data, error, isError, isLoading, isFetching } = useQuery<ResponseModel<UnformattedData>, Error>({
     queryKey: ['data', { index: serverPageIndex, size: fetchSize, filters, sorting }],
     queryFn: () => dataFetcher(serverPageIndex, fetchSize, filters, sorting),
     placeholderData: keepPreviousData,
