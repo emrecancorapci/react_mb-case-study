@@ -1,7 +1,7 @@
 import { type SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Filter, useFilterStore } from '@/stores/use-filter-store';
-import { FormattedDataType } from '@/types/formatted-data';
+import { useFilterStore } from '@/stores/use-filter-store';
 
 import { Button } from '../ui/button';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
@@ -9,19 +9,39 @@ import { Input } from '../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { columns } from './columns';
 
-interface Inputs {
-  filterType: FormattedDataType;
-  filterValue: string;
-}
+const validFilterTypes = [
+  'uploaded_variation',
+  'existing_variation',
+  'symbol',
+  'af_vcf',
+  'depth',
+  'dann_score',
+  'pheno_pubmed',
+  'mondo',
+  'provean',
+] as const;
+
+const InputSchema = z
+  .object({
+    filterType: z.enum(validFilterTypes), // Ensure filterType is one of the valid values
+    filterValue: z.union([z.string(), z.number()]), // filterValue can be a string or a number
+  })
+  .superRefine((data) => {
+    if (data.filterType === 'depth' || data.filterType === 'dann_score' || data.filterType === 'provean') {
+      return Number(data.filterValue);
+    }
+
+    return true;
+  });
+
+type FormattedInput = z.infer<typeof InputSchema>;
 
 export default function FilterSelectorForm() {
-  const form = useForm<Inputs>();
+  const form = useForm<FormattedInput>();
   const addFilter = useFilterStore((state) => state.addFilter);
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    const key = data.filterType as FormattedDataType;
-    const value = data.filterValue;
-    addFilter({ [key]: value } as Filter);
+  const onSubmit: SubmitHandler<FormattedInput> = ({ filterType, filterValue }) => {
+    addFilter({ filterType, filterValue });
   };
 
   return (
