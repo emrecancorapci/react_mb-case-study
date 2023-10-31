@@ -33,7 +33,7 @@ export default function Home(): JSX.Element {
 
   return (
     <div className="w-full max-w-screen-xl px-4">
-      {/* <HomeHeader /> */}
+      <HomeHeader />
 
       {isLoading || isFetching ? (
         <div className="flex w-full justify-center py-60">
