@@ -1,6 +1,6 @@
 import { ArrowBigDownDashIcon, ArrowBigUpDashIcon } from 'lucide-react';
 
-import { useFilterStore } from '@/stores/use-filter-store';
+import { useFilterStore } from '@/stores/filter-store';
 import { FormattedData } from '@/types/formatted-data';
 import { MBColumn } from '@/types/mb-column';
 

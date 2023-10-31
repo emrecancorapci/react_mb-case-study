@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { type FilterData, getFormattedFilters, type Sorting } from '@/stores/use-filter-store';
+import { type FilterData, getFormattedFilters, type Sorting } from '@/stores/filter-store';
 import type { FormattedDataType } from '@/types/formatted-data';
 import { ResponseModel } from '@/types/response-model';
 import { UnformattedData, UnformattedDataType } from '@/types/unformatted-data';

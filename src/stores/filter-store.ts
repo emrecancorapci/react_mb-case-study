@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 import { dataMapperReverse } from '@/lib/data-formatter';
 import { FormattedDataType } from '@/types/formatted-data';
+import { UnformattedDataType } from '@/types/unformatted-data';
 
 export interface Filter {
   filterType: string;
@@ -156,6 +157,10 @@ function isFormattedDataType(argument: string): argument is FormattedDataType {
   return argument in defaultFilter;
 }
 
+function isUnformattedDataType(argument: string): argument is UnformattedDataType {
+  return argument in defaultFilter;
+}
+
 function filterUndefinedPropertiesAndFormatFilters(object: FilterData): unknown {
   const newObject: any = {};
 
@@ -166,6 +171,7 @@ function filterUndefinedPropertiesAndFormatFilters(object: FilterData): unknown 
     const newKey = dataMapperReverse(key as FormattedDataType);
 
     if (value === undefined) continue;
+    if (isUnformattedDataType(newKey)) return undefined;
 
     if (value?.length > 1) {
       newObject[newKey] = value;
