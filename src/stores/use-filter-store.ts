@@ -150,15 +150,28 @@ export interface FilterData {
   provean: string | undefined;
 }
 
+export const getFormattedFilters = () => filterUndefinedPropertiesAndFormatFilters(useFilterStore.getState().filters);
+
 function isFormattedDataType(argument: string): argument is FormattedDataType {
   return argument in defaultFilter;
 }
 
-export function filterUndefinedProperties(object: FilterData): unknown {
+function filterUndefinedPropertiesAndFormatFilters(object: FilterData): unknown {
   const newObject: any = {};
+
+  if (Object.values(object).every((value) => value === undefined)) return undefined;
+
   for (const key of Object.keys(object)) {
-    if (object[key as FormattedDataType] !== undefined && object[key as FormattedDataType]?.length !== 0)
-      newObject[key as FormattedDataType] = object[key as FormattedDataType];
+    const value = object[key as FormattedDataType];
+    const newKey = dataMapperReverse(key as FormattedDataType);
+
+    if (value === undefined) continue;
+
+    if (value?.length > 1) {
+      newObject[newKey] = value;
+    } else if (value?.length === 1) {
+      newObject[newKey] = value[0];
+    }
   }
   return newObject;
 }
