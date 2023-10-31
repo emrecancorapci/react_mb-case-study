@@ -1,13 +1,12 @@
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useFilterStore } from '@/stores/use-filter-store';
-
-import { Button } from '../ui/button';
-import { Form, FormControl, FormField, FormItem } from '../ui/form';
-import { Input } from '../ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { columns } from './columns';
+import { columns } from '@/components/table/columns';
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useFilterStore } from '@/stores/filter-store';
 
 const validFilterTypes = [
   'uploaded_variation',
@@ -46,8 +45,8 @@ export default function FilterSelectorForm() {
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-2">
+      <form className="flex flex-col gap-8 md:flex-row md:gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-4 md:flex-row">
           <FormField
             control={form.control}
             name="filterType"
@@ -55,7 +54,7 @@ export default function FilterSelectorForm() {
               <FormItem>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="min-w-[180px]">
                       <SelectValue placeholder="Filtre Seç" />
                     </SelectTrigger>
                   </FormControl>
@@ -82,7 +81,9 @@ export default function FilterSelectorForm() {
             )}
           />
         </div>
-        <Button type="submit">Ekle</Button>
+        <Button className="min-w-[120px]" type="submit">
+          Ekle
+        </Button>
       </form>
     </Form>
   );
