@@ -1,18 +1,21 @@
 import { create } from 'zustand';
 
-import { dataFormatterReverse } from '@/lib/data-formatter';
+import { dataMapperReverse } from '@/lib/data-formatter';
 import { FormattedDataType } from '@/types/formatted-data';
 
-export type Filter = Record<FormattedDataType, string[] | number[] | string | number>;
+export interface Filter {
+  filterType: string;
+  filterValue: string | number;
+}
 export type Sorting = Record<FormattedDataType, 'ASC' | 'DESC'>;
 
 const defaultFilter = {
   uploaded_variation: [],
   existing_variation: [],
   symbol: [],
-  af_vcf: undefined,
-  depth: undefined,
-  dann_score: undefined,
+  af_vcf: [],
+  depth: [],
+  dann_score: [],
   pheno_pubmed: undefined,
   mondo: undefined,
   provean: undefined,
@@ -22,40 +25,96 @@ interface FilterStore {
   filters: FilterData;
   sorting: Sorting | undefined;
   addFilter: (filter: Filter) => void;
-  // deleteFilter: (filter: Record<string, string | number>) => void;
+  deleteFilter: (filter: Filter) => void;
   setSorting: (sorting: FormattedDataType) => void;
 }
 
 export const useFilterStore = create<FilterStore>((set) => ({
   filters: defaultFilter,
   sorting: undefined,
-  addFilter: (filter) => {
-    console.log('Filter:', filter);
-    const filterKey = Object.keys(filter)[0];
+  addFilter: ({ filterType, filterValue }) => {
     const validKeys = Object.keys(defaultFilter);
 
-    if (!validKeys.includes(filterKey)) {
-      console.error('Invalid filter key:', filterKey);
+    if (!validKeys.includes(filterType)) {
+      console.error('Invalid filter key:', filterType);
       return;
     }
 
     set((state) => {
       const newFilters = state.filters;
-      const filterValue = filter[filterKey as FormattedDataType];
 
-      switch (filterKey) {
-        case 'uploaded_variation' || 'existing_variation' || 'symbol': {
-          if (newFilters[filterKey] === undefined) newFilters[filterKey] = [];
-          newFilters[filterKey]?.push(String(filterValue));
+      switch (filterType) {
+        case 'uploaded_variation':
+        case 'existing_variation':
+        case 'symbol': {
+          if (typeof filterValue === 'string') {
+            newFilters[filterType]?.push(filterValue);
+          } else {
+            console.error('Invalid filter value for', filterType);
+          }
           break;
         }
-        case 'af_vcf' || 'depth' || 'dann_score': {
-          if (newFilters[filterKey] === undefined) newFilters[filterKey] = [];
-          newFilters[filterKey]?.push(Number(filterValue));
+        case 'af_vcf':
+        case 'depth':
+        case 'dann_score': {
+          const numericValue = Number(filterValue);
+          if (Number.isNaN(numericValue)) {
+            console.error('Invalid filter value for', filterType);
+          } else {
+            newFilters[filterType]?.push(numericValue);
+          }
           break;
         }
-        case 'pheno_pubmed' || 'mondo' || 'provean': {
-          newFilters[filterKey] = String(filterValue);
+        case 'pheno_pubmed':
+        case 'mondo':
+        case 'provean': {
+          if (typeof filterValue === 'string') {
+            newFilters[filterType] = filterValue;
+          } else {
+            console.error('Invalid filter value for', filterType);
+          }
+          break;
+        }
+        default: {
+          console.error('Invalid filter type:', filterType);
+        }
+      }
+
+      return { filters: newFilters };
+    });
+  },
+  deleteFilter: (filter) => {
+    const validKeys = Object.keys(defaultFilter);
+
+    if (!validKeys.includes(filter.filterType)) {
+      console.error('Invalid filter key:', filter.filterType);
+      return;
+    }
+
+    set((state) => {
+      const newFilters = state.filters;
+
+      switch (filter.filterType) {
+        case 'uploaded_variation':
+        case 'existing_variation':
+        case 'symbol': {
+          newFilters[filter.filterType] = newFilters[filter.filterType]?.filter(
+            (value) => value !== filter.filterValue,
+          );
+          break;
+        }
+        case 'af_vcf':
+        case 'depth':
+        case 'dann_score': {
+          newFilters[filter.filterType] = newFilters[filter.filterType]?.filter(
+            (value) => value !== Number(filter.filterValue),
+          );
+          break;
+        }
+        case 'pheno_pubmed':
+        case 'mondo':
+        case 'provean': {
+          newFilters[filter.filterType] = undefined;
           break;
         }
       }
@@ -63,21 +122,19 @@ export const useFilterStore = create<FilterStore>((set) => ({
       return { filters: newFilters };
     });
   },
-  // deleteFilter: (filter) => {
-  //   set((state) => {
-  //     const newFilters = new Map(state.filters);
-  //     for (const key of Object.keys(filter)) newFilters.delete(key);
-  //     return { filters: newFilters };
-  //   });
-  // },
   setSorting: (newSorting) =>
-    // @ts-expect-error - Doesn't makes sense
     set((state) => {
-      if (!isFormattedDataType(newSorting)) return;
+      if (!isFormattedDataType(newSorting)) return state;
 
-      return state.sorting?.[newSorting as FormattedDataType] === 'ASC'
-        ? { sorting: { [newSorting as FormattedDataType]: 'DESC' } }
-        : { sorting: { [newSorting as FormattedDataType]: 'ASC' } };
+      const sortingValue = state.sorting?.[newSorting as FormattedDataType];
+      const newSortingValue = sortingValue === 'ASC' ? 'DESC' : 'ASC';
+
+      return {
+        sorting: {
+          ...state.sorting,
+          [newSorting as FormattedDataType]: newSortingValue,
+        } as Sorting | undefined,
+      };
     }),
 }));
 
@@ -105,22 +162,3 @@ export function filterUndefinedProperties(object: FilterData): unknown {
   }
   return newObject;
 }
-
-export const getFilters = () => filterUndefinedProperties(useFilterStore.getState().filters);
-
-/** ADD FILTER
- * if(filterType === 'enum') {
- *   if(filter NOT exists) create new filter
- *   else if(is filter value NOT exist) add value to existing filter
- * }
- * else if(filterType === 'number') {
- *   if(filter NOT exists) create new filter
- *   else if(filter value is NOT same) {
- *     if(filter value is NOT same AND filter has one member) turn it into array
- *     add value to existing filter
- *   }
- * }
- * else if(filterType === 'free_form') {
- *  if(filter NOT exists) create new filter
- *  else if(filter value is NOT same) change filter value
- */
