@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { type FilterData, getFilters, type Sorting } from '@/stores/use-filter-store';
+import { type FilterData, getFormattedFilters, type Sorting } from '@/stores/use-filter-store';
 import type { FormattedDataType } from '@/types/formatted-data';
 import { ResponseModel } from '@/types/response-model';
 import { UnformattedData, UnformattedDataType } from '@/types/unformatted-data';
@@ -19,11 +19,10 @@ export const dataFetcher = async (
       ? undefined
       : {
           [dataMapperReverse(Object.keys(sorting)[0] as FormattedDataType) as UnformattedDataType]:
-            // @ts-expect-error - Doesn't makes sense
-            sorting[Object.keys(sorting)[0]],
+            sorting[Object.keys(sorting)[0] as keyof Sorting],
         };
 
-  const formattedFilters = getFilters();
+  const formattedFilters = getFormattedFilters();
 
   const request =
     filters === undefined ? { ordering: formattedSorting } : { filters: formattedFilters, ordering: formattedSorting };
