@@ -173,7 +173,10 @@ function filterUndefinedPropertiesAndFormatFilters(object: FilterData): unknown 
     if (value === undefined) continue;
     if (isUnformattedDataType(newKey)) return undefined;
 
-    if (value?.length > 1) {
+    if (
+      value.length > 1 ||
+      (value.length > 0 && (key === 'uploaded_variation' || key === 'existing_variation' || key === 'symbol'))
+    ) {
       newObject[newKey] = value;
     } else if (value?.length === 1) {
       newObject[newKey] = value[0];

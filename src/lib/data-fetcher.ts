@@ -13,7 +13,7 @@ export const dataFetcher = async (
   filters: FilterData,
   sorting: Sorting | undefined,
 ) => {
-  const api = `https://api-dev.massbio.info/assignment/query?page=${lastServerPageIndex + 1}&page_size=${fetchSize}`;
+  const api = `https://api-dev.massbio.info/assignment/query?page=${lastServerPageIndex}&page_size=${fetchSize}`;
   const formattedSorting =
     sorting === undefined
       ? undefined
@@ -28,6 +28,6 @@ export const dataFetcher = async (
     filters === undefined ? { ordering: formattedSorting } : { filters: formattedFilters, ordering: formattedSorting };
 
   const response = await axios.post<ResponseModel<UnformattedData>>(api, request);
-  console.log('Response:', response.request);
+  console.log('Response:', response);
   return response.data;
 };
