@@ -8,8 +8,8 @@ export default function MBTableHeader() {
       <TableRow>
         {columns
           .sort((a, b) => a.order - b.order)
-          .map((column) => (
-            <MBTableHead key={column.id} column={column} />
+          .map(({ id, headerClass, name }) => (
+            <MBTableHead key={id} id={id} headerClass={headerClass} name={name} />
           ))}
       </TableRow>
     </TableHeader>

@@ -24,7 +24,7 @@ export const columns: MBColumn<FormattedData>[] = [
     order: 3,
     id: 'symbol',
     name: 'Symbol',
-    headerClass: 'text-center',
+    headerClass: 'justify-center',
     CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
       return <p className="text-center">{children}</p>;
     },
@@ -41,7 +41,7 @@ export const columns: MBColumn<FormattedData>[] = [
     order: 5,
     id: 'depth',
     name: 'Depth',
-    headerClass: 'text-center',
+    headerClass: 'justify-center',
     CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
       return <p className="text-center">{children}</p>;
     },
@@ -50,7 +50,7 @@ export const columns: MBColumn<FormattedData>[] = [
     order: 6,
     id: 'dann_score',
     name: 'Dann Score',
-    headerClass: 'text-center',
+    headerClass: 'justify-center',
     CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
       return <p className="text-center">{children}</p>;
     },
@@ -67,6 +67,7 @@ export const columns: MBColumn<FormattedData>[] = [
     order: 8,
     id: 'pheno_pubmed',
     name: 'Pheno Pubmed',
+    headerClass: 'justify-center',
     CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
       return typeof children === 'string' ? (
         <Link className="flex w-full justify-center" to={children}>
@@ -83,7 +84,7 @@ export const columns: MBColumn<FormattedData>[] = [
     order: 9,
     id: 'provean',
     name: 'Provean',
-    headerClass: 'text-center',
+    headerClass: 'justify-center',
     CellWrapper: ({ children }: { children: string | number | null | undefined }) => {
       return typeof children === 'string' ? (
         <Link className="flex w-full justify-center" to={children}>
