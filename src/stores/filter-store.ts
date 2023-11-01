@@ -132,7 +132,6 @@ export const useFilterStore = create<FilterStore>((set) => ({
 
       return {
         sorting: {
-          ...state.sorting,
           [newSorting as FormattedDataType]: newSortingValue,
         } as Sorting | undefined,
       };
