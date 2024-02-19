@@ -92,7 +92,8 @@ Backend yazıcak arkadaşların aşağıda bulunduğu gibi istekleri kabul edip 
 {
     "filters": {"kolon adı": <filter>, "kolon adı": <filter>, "kolon adı": <filter>},
     "ordering": [{"kolon adı": <direction>}, {"kolon adı": <direction>}, {"kolon adı": <direction>}]
-}```
+}
+```
 
 - `filters`: Verileri filtrelemek için kullanılır. Filtreler, belirli kolonların belirli değerlere eşleşmesini sağlar.
 - `filtres`: Verileri birden farklı veri tipinde istek kabul edebilir olmalıdır. 3 farklı veri tipi mevcuttur.
@@ -120,18 +121,18 @@ Backend yazıcak arkadaşların aşağıda bulunduğu gibi istekleri kabul edip 
     - `400 Bad Request`: Geçersiz istek gönderildi.
     - `500 Internal Server Error`: Sunucu tarafında bir hata oluştu.
 - **Yanıt Gövdesi (JSON)**
-  ```json
-  {
-    "page": <int>,
-    "page_size": <int>,
-    "count": <int>,
-    "results": [
-        {"kolon adı": "değeri", "kolon adı": "değeri", "kolon adı": "değeri"},
-        {"kolon adı": "değeri", "kolon adı": "değeri", "kolon adı": "değeri"},
-        {"kolon adı": "değeri", "kolon adı": "değeri", "kolon adı": "değeri"}
-    ]
+```json
+{
+  "page": <int>,
+  "page_size": <int>,
+  "count": <int>,
+  "results": [
+    {"kolon adı": "değeri", "kolon adı": "değeri", "kolon adı": "değeri"},
+    {"kolon adı": "değeri", "kolon adı": "değeri", "kolon adı": "değeri"},
+    {"kolon adı": "değeri", "kolon adı": "değeri", "kolon adı": "değeri"}
+  ]
 }
-  ```
+```
   
 ### Örnek 1: Filtreleme
 
